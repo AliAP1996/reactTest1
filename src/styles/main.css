@@ -1,1 +1,4 @@
 @import "tailwindcss";
+
+@custom-variant child (& > *);
+@custom-variant child-hover (& > *:hover);
