@@ -13,8 +13,8 @@ function App() {
   return (
     <>
       <Header />
-      <Navbar name={name} family={family}/>
-      <Center  sayHi={sayHi}/>
+      <Navbar name={name} family={family} />
+      <Center sayHi={sayHi} />
     </>
   );
 }
