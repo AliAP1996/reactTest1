@@ -52,11 +52,11 @@ function Center({ sayHi }) {
       </select>
 
       <form action="" className="ml-40" onChange={checkChange}>
-        <input type="checkbox" name="car" value="pride" id="carPride" /> Pride{" "}
+        <input type="checkbox" name="car" value="pride" id="carPride" /> Pride
         <br />
-        <input type="checkbox" name="car" value="peugout" id="carPeugout" />
-        {"Peugout"}
-        <input type="checkbox" name="car" value="quik" id="carQuik" /> Quik{" "}
+        <input type="checkbox" name="car" value="peugout" id="carPeugout" /> Peugout
+        <br />
+        <input type="checkbox" name="car" value="quik" id="carQuik" /> Quik
         <br />
         <input type="checkbox" name="car" value="saina" id="carSaina" /> Saina
       </form>
