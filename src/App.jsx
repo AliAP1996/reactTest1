@@ -1,56 +1,74 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
-  const [count, setCount] = useState(4);
+  const [num, setNum] = useState(0);
   const [name, setName] = useState("");
+  const [size, setSize] = useState(window.innerWidth);
+  const [users, setUsers] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState(null);
 
-  const handleClick = () => {
-    setCount((count) => count + 2);
-    setCount((coount) => coount + 2);
-  };
+  useEffect(() => {
+    // fetch("https://jsonplaceholder.typicode.com/userssad")
+    //   .then((res) => {
+    //     if(!res.ok) throw new Error('failed');
+    //     return res.json();
+    //   })
+    //   .then((data) => {
+    //     setUsers(data);
+    //     console.log(data);
+    //   })
+    //   .catch((err) => setErr(err.message))
+    //   .finally(setLoading(false));
 
-  const [person, setPerson] = useState({ name: "", family: "" });
+    const fetchUser = async () => {
+      try {
+        const res = await fetch("https://jsonplaceholder.typicode.com/users");
+        if (!res.ok) throw new Error("Failed to fetch");
+        const data = await res.json();
+        setUsers(data);
+      } catch (error) {
+        setErr(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const handleClick2 = (name) => {
-    setName(name);
-  };
+    fetchUser();
 
-  const [chars, setChar] = useState(["a", "b", "c", "d"]);
-  const [newChar , setNewChar] = useState('');
+    window.addEventListener("resize", () => {
+      setSize(window.innerWidth);
+      console.log("a");
+    });
+
+    return () => {
+      window.removeEventListener("resize", () => {
+        setSize(window.innerWidth);
+        console.log("d");
+      });
+    };
+  }, []);
 
   return (
     <>
-      <button onClick={handleClick}>Increase</button>
-      <button onClick={() => setCount(count - 1)}>Decrease</button>
-      <p>count = {count}</p>
-      <button onClick={() => handleClick2("Ali")}>Name</button>
-      <p>Name = {name}</p>1
+      <button onClick={() => setNum(num + 1)}>count : {num}</button>
       <br />
-      <br />
-      <label htmlFor="nameTxt">Name: </label>
       <input
         type="text"
-        name="nameTxt"
-        id="nameTxt"
-        onChange={(e) => setPerson({ ...person, name: e.target.value })}
+        onChange={(e) => setName(e.target.value)}
+        className="bg-gray-300"
       />
-      <label htmlFor="familyTxt">Family: </label>
-      <input
-        type="text"
-        name="familyTxt"
-        id="familyTxt"
-        onChange={(e) => setPerson({ ...person, family: e.target.value })}
-      />
-      <h3>name: {person.name}</h3>
-      <h3>family: {person.family}</h3>
+      <br />
+      <h4>name: {name}</h4>
       <br />
       <br />
-      <label>Add Char: </label>
-      <input type="text" name="" id="" onChange={(e) => setNewChar(e.target.value)} />
-      <button onClick={() => setChar([...chars , newChar])}>Add</button>
-      <ul>
-        {chars.map(char => <li>{char}</li>)}
-      </ul>
+      <h1>width: {size}</h1>
+      <br />
+      <hr />
+      <br />
+      {loading && <h3>Loading...</h3>}
+      {err && <h3>Error: {err}</h3>}
+      {users && users.map((user) => <h3 key={user.id}>{user.name}</h3>)}
     </>
   );
 }
